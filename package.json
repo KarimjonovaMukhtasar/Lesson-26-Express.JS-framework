@@ -1,0 +1,26 @@
+{
+  "name": "lesson-26-homework-express.js-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarimjonovaMukhtasar/Lesson-26-Express.JS-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/KarimjonovaMukhtasar/Lesson-26-Express.JS-framework/issues"
+  },
+  "homepage": "https://github.com/KarimjonovaMukhtasar/Lesson-26-Express.JS-framework#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
