@@ -3,30 +3,32 @@ import { getAll, findOne, saveData, update, deleteOne } from "./database.js"
 
 const app = express()
 app.use(express.json())
-app.get("/books", (req, res) => {
+app.get("/books", async (req, res) => {
     const method = req.method
     const url = req.url
     console.log({ method, url })
-    const books = getAll()
+    const books = await getAll()
     res.send(books)
 })
-app.get("./books/:id", (req, res) => {
+app.get("/books/:id", async (req, res) => {
     const method = req.method
     const url = req.url
     console.log({ method, url })
-    const book = findOne()
+    const {id} = req.params
+    const book = await findOne(id)
     if (book === null) {
         res.status(404)
         res.send({ message: `NOT FOUND SUCH AN ID ${id}` })
     }
     res.send(book)
 })
-app.post("/books", (req, res) => {
+app.post("/books", async (req, res) => {
     const method = req.method
     const url = req.url
     console.log({ method, url })
     const updatedBook = req.body
-    if (!updatedBook.hasOWnProperty("title") || !updatedBook.hasOwnProperty("author") || !updatedBook.hasOWnProperty("year")) {
+    console.log(req.body)
+    if (!updatedBook.hasOwnProperty("title") || !updatedBook.hasOwnProperty("author") || !updatedBook.hasOwnProperty("year")) {
         res.status(400)
         res.send({ message: "BAD REQUEST, PLEASE add the properties of a book fully!" })
     }
@@ -34,28 +36,28 @@ app.post("/books", (req, res) => {
         res.status(400)
         res.send({ message: "BAD REQUEST, PLEASE add the properties of a book fully!" })
     }
-    const book = saveData(updatedBook)
+    const book = await saveData(updatedBook)
     res.send(book)
 })
-app.put("/books/:id", (req, res) => {
+app.put("/books/:id", async (req, res) => {
     const method = req.method
     const url = req.url
     console.log({ method, url })
     const { id } = req.params
     const updatedBook = req.body
-    if(updatedBook === null){
+    const book = await update(id, updatedBook)
+    if(book === null){
         res.status(404)
         res.send({ message: `NOT FOUND SUCH AN ID ${id}` })
     }
-    const book = update(id, updatedBook)
     res.send(book)
 })
-app.delete("/books/:id", (req,res)=>{
+app.delete("/books/:id", async (req,res)=>{
     const method = req.method
     const url = req.url
     console.log({ method, url })
     const { id } = req.params
-    const book = deleteOne(id)
+    const book = await deleteOne(id)
     if (book === null) {
         res.status(404)
         res.send({ message: `NOT FOUND SUCH AN ID ${id}` })

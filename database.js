@@ -52,7 +52,8 @@ export async function saveData(book) {
         books.push(newBook)
         await fs.writeFile(databasePath, JSON.stringify(books, null, 2))
         console.log("A new book has been created and added to the database")
-        return books
+        const allBooks = await getAll()
+        return allBooks
     }catch (err) {
         throw new Error(`Error while posting the data... ${err.message}`)
     }
@@ -67,8 +68,9 @@ export async function update(id, data) {
             let index = books.findIndex(b => String(b.id) === String(id))
             books[index] = { ...books[index], ...data }
             await fs.writeFile(databasePath, JSON.stringify(books, null, 2))
+            const allBooks = await getAll()
             console.log("The book has been updated successfully")
-            return books
+            return allBooks
         }
         return null
     } catch (err) {
@@ -86,7 +88,8 @@ export async function deleteOne(id) {
             books.splice(bookIndex, 1)
             await fs.writeFile(databasePath, JSON.stringify(books))
             console.log(`The ${id} id numbered book has been deleted successfully! `)
-            return books
+             const allBooks = await getAll()
+            return allBooks
         }
         else{
             return null
